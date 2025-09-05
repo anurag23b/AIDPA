@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+.env
+.git
+venv
+.DS_Store
+*.db
+.ipynb_checkpoints
+*.log
+Dockerfile
+docker-compose.yml
+README.md

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aidpa-backend
+  labels:
+    app: aidpa-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aidpa-backend
+  template:
+    metadata:
+      labels:
+        app: aidpa-backend
+    spec:
+      containers:
+        - name: aidpa-backend
+          image: aidpa-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aidpa-secrets
+                  key: PRIVATE_KEY
+            - name: TASK_STORAGE_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: aidpa-secrets
+                  key: TASK_STORAGE_ADDRESS
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aidpa-secrets
+                  key: OPENROUTER_API_KEY
+            - name: HUGGINGFACEHUB_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: aidpa-secrets
+                  key: HUGGINGFACEHUB_API_TOKEN
+          envFrom:
+            - configMapRef:
+                name: backend-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: aidpa-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

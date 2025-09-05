@@ -1,0 +1,39 @@
+# ipfs-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipfs
+  template:
+    metadata:
+      labels:
+        app: ipfs
+    spec:
+      containers:
+        - name: ipfs
+          image: ipfs/go-ipfs:v0.8.0  # Updated to a compatible version
+          ports:
+            - containerPort: 5001
+          volumeMounts:
+            - name: ipfs-storage
+              mountPath: /data/ipfs
+      volumes:
+        - name: ipfs-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipfs-service
+spec:
+  selector:
+    app: ipfs
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: ClusterIP

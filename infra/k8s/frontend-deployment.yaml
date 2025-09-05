@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aidpa-frontend
+  labels:
+    app: aidpa-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aidpa-frontend
+  template:
+    metadata:
+      labels:
+        app: aidpa-frontend
+    spec:
+      containers:
+        - name: aidpa-frontend
+          image: aidpa-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"

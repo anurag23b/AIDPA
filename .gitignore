@@ -1,0 +1,8 @@
+vector_memory/faiss_index/
+frontend/
+venv/
+new-tls.crt
+new-tls.key
+q
+tls.crt
+tls.key

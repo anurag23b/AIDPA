@@ -1,0 +1,17 @@
+# infra/k8s/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: default
+  labels:
+    app: aidpa-backend
+data:
+  POSTGRES_USER: aidpa
+  POSTGRES_PASSWORD: aidpa123
+  POSTGRES_DB: aidpa_db
+  POSTGRES_HOST: postgres-service
+  POSTGRES_PORT: "5432"
+  MONGODB_URI: mongodb://mongo:27017
+  ANVIL_URL: http://anvil:8545
+  IPFS_NODE_URL: /dns4/ipfs-service/tcp/5001
