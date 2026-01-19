@@ -1,69 +1,89 @@
-AIDPA: AI-Integrated Decentralized Personal Assistant
-AIDPA is a full-stack personal assistant application that leverages AI, blockchain, and modern DevOps practices to manage tasks, health, finances, and habits. Built with FastAPI, Next.js, Kubernetes, and Solidity, it showcases a decentralized, AI-driven approach to personal productivity.
-Features
+**AIDPA — LLM-Assisted Backend for Structured Task Management**
 
-Task Management: Create, update, and prioritize tasks with NLP and blockchain storage (IPFS + Ethereum).
-Health Analysis: Analyze health metrics using LSTM models with anomaly detection.
-Finance Tracking: Log income/expenses and view AI-driven forecasts.
-Voice Chat: Interact with the assistant via speech-to-text and text-to-speech.
-Habit Learning: Reinforcement learning for personalized habit recommendations.
-Real-Time Dashboard: View recent interactions with the assistant.
-Decentralized Storage: Tasks stored on IPFS and Ethereum (Anvil).
+AIDPA is a **backend-first personal assistant system** focused on converting **free-form user input into structured, validated task workflows** using controlled LLM integration.
+The project explores how LLMs can be used as a **non-authoritative system component** within a reliable backend architecture.
 
-Tech Stack
+This repository represents an **advanced prototype**, built to emphasize correctness, observability, and iteration rather than production scale.
 
-Backend: FastAPI, SQLModel, MongoDB, PostgreSQL, LangChain, PyTorch
-Frontend: Next.js, TypeScript, Tailwind CSS, Web Speech API
-Blockchain: Solidity, Foundry, Anvil
-Infrastructure: Kubernetes, Docker, NGINX Ingress
-AI/ML: LSTM for health analysis, Q-learning for habit learning
+**What the System Does**
 
-Setup Instructions
-Prerequisites
+Accepts natural-language user input
 
-Docker, Docker Compose
-Kubernetes (e.g., Minikube)
-Node.js 18+, Python 3.10+
-Foundry (for Solidity)
+Converts it into structured task data using **LLM-assisted semantic parsing**
 
-Local Development
+Validates outputs before persistence
 
-Clone the repository:git clone <your-repo-url>
-cd aidpa
+Stores structured state separately from conversational context
 
+Exposes functionality via REST APIs
 
-Start backend and frontend with Docker Compose:cd infra
-docker-compose up -d
+LLMs are used **only for interpretation**, not for business logic or persistence decisions.
 
+**What I Personally Owned End-to-End**
 
-Deploy TaskStorage.sol:cd aidpa-chain
-forge script script/Deploy.s.sol --rpc-url http://localhost:8545 --private-key $PRIVATE_KEY --broadcast
+Backend API design and implementation using **FastAPI (async)**
 
+LLM-assisted semantic parsing with **prompt-driven structured extraction**
 
-Update .env with TASK_STORAGE_ADDRESS and secrets.
-Train LSTM model:cd backend
-python scripts/train_health_lstm.py
+Validation and guardrails to ensure deterministic downstream behavior
 
+Data modeling and persistence using **PostgreSQL (structured state)** and **MongoDB (context)**
 
-Access the app at http://localhost:3000.
+Containerized local deployments using **Docker**
 
-Kubernetes Deployment
+CI workflows using **GitHub Actions**
 
-Start Minikube:minikube start
-minikube addons enable ingress
+Performance measurement and documentation of non-production assumptions
 
+**Architecture Overview**
 
-Apply Kubernetes manifests:kubectl apply -f infra/k8s/
+**Backend:** FastAPI (async), REST APIs
 
+**LLM Integration:** Prompt-driven structured extraction (LangChain-style patterns)
 
-Add aidpa.local to /etc/hosts:echo "127.0.0.1 aidpa.local" | sudo tee -a /etc/hosts
+**Datastores:** PostgreSQL (tasks), MongoDB (conversation context)
 
+**Infra (local):** Docker, Minikube, NGINX Ingress
 
-Access the app at http://aidpa.local.
+**CI:** GitHub Actions
 
-Screenshots
-(Add screenshots of Tasks, Health, Finance, and Assistant pages)
-Contributing
-Feel free to submit issues or PRs to improve AIDPA!
-License
-MIT
+Note: Kubernetes usage is limited to **local orchestration (Minikube)** and is not intended to represent production deployment.
+
+**Design Principles**
+
+Treat LLMs as **assistive components**, not sources of truth
+
+Measure behavior instead of assuming scale
+
+Maintain explicit prototype boundaries
+
+Prefer simple, debuggable systems over over-engineered solutions
+
+**What This Project Is NOT**
+
+❌ Not a production GenAI system
+
+❌ Not a RAG pipeline
+
+❌ Not an agent framework
+
+❌ Not a decentralized application
+
+These choices are intentional to preserve clarity and correctness.
+
+**Running Locally (Prototype Setup)**
+
+The system is designed to run in a local Kubernetes environment for development and testing.
+
+High-level setup:
+- Start a local Kubernetes cluster using **Minikube**
+- Enable **NGINX Ingress**
+- Build backend and frontend Docker images locally
+- Deploy services using Kubernetes manifests
+- Access the application via a local ingress endpoint
+
+Kubernetes usage is limited to **local orchestration (Minikube)** and is not intended to represent production deployment.
+
+**Why This Exists**
+
+This project was built to explore **how GenAI can be integrated responsibly into backend systems**, and to build strong intuition around **guardrails, validation, and system reliability** before scaling into more advanced GenAI workflows.
